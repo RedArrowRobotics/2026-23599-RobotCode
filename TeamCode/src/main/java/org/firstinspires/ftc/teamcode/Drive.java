@@ -71,7 +71,7 @@ public class Drive extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private OmniDrive omniDrive = null;
-     private ActualShooter shooter = null;
+    private ActualShooter shooter = null;
 
 
     @Override
@@ -83,7 +83,6 @@ public class Drive extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
         waitForStart();
         runtime.reset();
 
@@ -96,7 +95,7 @@ public class Drive extends LinearOpMode {
             double side =  gamepad1.left_stick_x;
             double turn =  gamepad1.right_stick_x;
 
-           omniDrive.drive(front_back, side, turn);
+            omniDrive.drive(front_back *front_back*front_back, side*side*side, turn*turn*turn);
 
             if (gamepad2.y == true) {
                 shooter.shoot(0.5);
