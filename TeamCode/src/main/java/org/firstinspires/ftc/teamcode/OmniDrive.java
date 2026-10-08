@@ -3,11 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.util.Timer;
+
 public class OmniDrive {
     private DcMotor frontLeftDrive = null;
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
+
+    private SimpleTimer timer=new SimpleTimer();
 
     OmniDrive(HardwareMap hardwareMap) {
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -32,6 +36,18 @@ public class OmniDrive {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
     }
+
+
+    void driveAuto(double forward){
+        timer.start(forward*1.5);
+        if (timer.hasElapsed()){
+            drive(0, 0, 0);
+        }else{
+            drive(0.8, 0, 0);
+        }
+    }
+
+
 
     void drive( double axial,  double lateral,  double yaw){
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
