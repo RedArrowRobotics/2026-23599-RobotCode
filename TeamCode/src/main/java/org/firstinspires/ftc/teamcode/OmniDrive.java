@@ -13,7 +13,7 @@ public class OmniDrive {
 
     private SimpleTimer timer=new SimpleTimer();
 
-    OmniDrive(HardwareMap hardwareMap) {
+    public OmniDrive(HardwareMap hardwareMap) {
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");// port 0
@@ -37,8 +37,15 @@ public class OmniDrive {
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
     }
 
-
-    void driveAuto(double forward){
+    public void autoBackward(double backward){
+        timer.start(backward*1.5);
+        if (timer.hasElapsed()){
+            drive(0, 0, 0);
+        }else{
+            drive(-0.8, 0, 0);
+        }
+    }
+    public void driveAuto(double forward){
         timer.start(forward*1.5);
         if (timer.hasElapsed()){
             drive(0, 0, 0);

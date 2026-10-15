@@ -11,7 +11,7 @@ public class SimpleTimer {
         FINISHED,
     }
 
-    SimpleTimer() {
+    public SimpleTimer() {
     }
 
     void start(double seconds) {
