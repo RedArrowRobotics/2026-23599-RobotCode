@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 public class SimpleTimer {
     long endTime;
+    long startTime;
     TimerState running = TimerState.UNSTARTED;
 
     enum TimerState {
@@ -14,22 +15,27 @@ public class SimpleTimer {
     public SimpleTimer() {
     }
 
-    void start(double seconds) {
+    public void start(double seconds) {
         if (running == TimerState.UNSTARTED) {
+            startTime = System.currentTimeMillis();
             endTime = Math.round(System.currentTimeMillis() + seconds * 1000);
             running = TimerState.STARTED;
         }
     }
 
-    void reset() {
+    public void reset() {
         running = TimerState.UNSTARTED;
     }
 
-    boolean isRunning() {
+    public boolean isRunning() {
         return running == TimerState.STARTED;
     }
 
-    boolean hasElapsed() {
+    public double getTime() {
+        return (System.currentTimeMillis() - startTime)/1000.0;
+    }
+
+    public boolean hasElapsed() {
         if (running == TimerState.FINISHED) {
             return true;
         } else if (running == TimerState.UNSTARTED) {

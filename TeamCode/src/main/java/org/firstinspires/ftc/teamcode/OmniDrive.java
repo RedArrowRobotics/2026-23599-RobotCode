@@ -56,7 +56,7 @@ public class OmniDrive {
 
 
 
-    void drive( double axial,  double lateral,  double yaw){
+    public void drive( double axial,  double lateral,  double yaw){
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
         // Set up a variable for each drive wheel to save the power level for telemetry.
         double frontLeftPower  = axial + lateral + yaw;
