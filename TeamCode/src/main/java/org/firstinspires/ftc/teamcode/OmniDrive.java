@@ -98,7 +98,7 @@ public class OmniDrive {
         // Send calculated power to wheels
         frontLeftDrive.setPower(frontLeftPower);
         frontRightDrive.setPower(frontRightPower);
-        backLeftDrive.setPower(backLeftPower);
         backRightDrive.setPower(backRightPower);
+        backLeftDrive.setPower(backLeftPower);
     }
 }

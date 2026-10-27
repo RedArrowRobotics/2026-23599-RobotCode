@@ -29,11 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -65,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @TeleOp(name="BioBuzz Main", group="Linear OpMode")
-public class Drive extends LinearOpMode {
+public class Teleop extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -73,12 +70,15 @@ public class Drive extends LinearOpMode {
     private OmniDrive omniDrive = null;
     private ActualShooter shooter = null;
 
+    private  Intake intake =null;
 
     @Override
     public void runOpMode() {
 
         omniDrive = new OmniDrive(hardwareMap);
         shooter = new ActualShooter(hardwareMap);
+
+        intake = new Intake(hardwareMap);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -102,6 +102,13 @@ public class Drive extends LinearOpMode {
             }
             else {
                 shooter.stop();
+            }
+
+            if (gamepad2.right_bumper==true){
+                intake.start();
+            }
+            else {
+              intake.stop();
             }
 
             // Show the elapsed game time and wheel power.
