@@ -9,12 +9,12 @@ public class ActualShooter {
     private DcMotor shooter = null;
     ActualShooter(HardwareMap hardwareMap){
         shooter = hardwareMap.get(DcMotor.class, "shooter" ); //port 0 Expansion hub
-        shooter.setDirection(DcMotor.Direction.FORWARD); //TODO verify direction
+        shooter.setDirection(DcMotor.Direction.REVERSE); //TODO verify direction
     }
     void shoot( double speed) {
-       //shooter.setPower(speed);
+       shooter.setPower(speed);
     }
     void stop() {
-        //shooter.setPower(0);
+        shooter.setPower(0);
     }
 }
