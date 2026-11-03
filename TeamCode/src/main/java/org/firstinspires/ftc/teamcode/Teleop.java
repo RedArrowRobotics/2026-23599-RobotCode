@@ -72,6 +72,9 @@ public class Teleop extends LinearOpMode {
 
     private  Intake intake =null;
 
+    private Spinner spinner = null;
+    private Spinner roller = null;
+
     @Override
     public void runOpMode() {
 
@@ -79,6 +82,9 @@ public class Teleop extends LinearOpMode {
         shooter = new ActualShooter(hardwareMap);
 
         intake = new Intake(hardwareMap);
+
+        spinner = new Spinner(hardwareMap, "Spinner", -0.6);
+        roller = new Spinner(hardwareMap, "Roller", 0.8);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -111,6 +117,20 @@ public class Teleop extends LinearOpMode {
               intake.stop();
             }
 
+            if (gamepad2.b==true) {
+                spinner.start();
+                roller.start();
+            }
+            else if (gamepad2.a==true){
+                spinner.reverse();
+                roller.reverse();
+            }
+            else{
+                spinner.stop();
+                roller.stop();
+            }
+
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
 //            telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
@@ -118,4 +138,3 @@ public class Teleop extends LinearOpMode {
             telemetry.update();
         }
     }}
-//bye bye!!!!!
