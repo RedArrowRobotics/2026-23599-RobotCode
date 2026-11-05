@@ -1,25 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.Timer;
 
 public class OmniDrive {
-    private DcMotor frontLeftDrive = null;
-    private DcMotor backLeftDrive = null;
-    private DcMotor frontRightDrive = null;
-    private DcMotor backRightDrive = null;
+    private double ticksPerSec = 2795.52;
+    private DcMotorEx frontLeftDrive = null;
+    private DcMotorEx backLeftDrive = null;
+    private DcMotorEx frontRightDrive = null;
+    private DcMotorEx backRightDrive = null;
 
     private SimpleTimer timer=new SimpleTimer();
 
-    public OmniDrive(HardwareMap hardwareMap) {
+    private Telemetry telemetry = null;
+
+    public OmniDrive(HardwareMap hardwareMap, Telemetry telemetry) {
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "front_left_drive");// port 0
-        backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");// port 1
-        frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");// port 2
-        backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");// port 3
+        frontLeftDrive = hardwareMap.get(DcMotorEx.class, "front_left_drive");// port 0
+        backLeftDrive = hardwareMap.get(DcMotorEx.class, "back_left_drive");// port 1
+        frontRightDrive = hardwareMap.get(DcMotorEx.class, "front_right_drive");// port 2
+        backRightDrive = hardwareMap.get(DcMotorEx.class, "back_right_drive");// port 3
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -31,10 +37,12 @@ public class OmniDrive {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftDrive.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRightDrive.setDirection(DcMotorEx.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotorEx.Direction.FORWARD);
+
+        this.telemetry = telemetry;
     }
 
     public void autoBackward(double backward){
@@ -96,9 +104,12 @@ public class OmniDrive {
 
         // TODO: figure out top speed and how to get there (  0.8(x^2) )
         // Send calculated power to wheels
-        frontLeftDrive.setPower(frontLeftPower);
-        frontRightDrive.setPower(frontRightPower);
-        backRightDrive.setPower(backRightPower);
-        backLeftDrive.setPower(backLeftPower);
+        frontLeftDrive.setVelocity(frontLeftPower*ticksPerSec);
+        frontRightDrive.setVelocity(frontRightPower*ticksPerSec);
+        backRightDrive.setVelocity(backRightPower*ticksPerSec);
+        backLeftDrive.setVelocity(backLeftPower*ticksPerSec);
+        telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower*ticksPerSec, frontRightPower*ticksPerSec);
+        telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower*ticksPerSec, backRightPower*ticksPerSec);
+
     }
 }

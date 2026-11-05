@@ -64,6 +64,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="BioBuzz Main", group="Linear OpMode")
 public class Teleop extends LinearOpMode {
 
+    private boolean isChassisOnly = false;
+
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -78,13 +80,16 @@ public class Teleop extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        omniDrive = new OmniDrive(hardwareMap);
-        shooter = new ActualShooter(hardwareMap);
+        omniDrive = new OmniDrive(hardwareMap, telemetry);
 
-        intake = new Intake(hardwareMap);
+        if (!isChassisOnly){
+            shooter = new ActualShooter(hardwareMap);
 
-        spinner = new Spinner(hardwareMap, "Spinner", -0.6);
-        roller = new Spinner(hardwareMap, "Roller", 0.8);
+            intake = new Intake(hardwareMap);
+
+            spinner = new Spinner(hardwareMap, "Spinner", -0.6);
+            roller = new Spinner(hardwareMap, "Roller", 0.8);
+        }
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -103,38 +108,38 @@ public class Teleop extends LinearOpMode {
 
             omniDrive.drive(front_back *front_back*front_back, side*side*side, turn*turn*turn);
 
-            if (gamepad2.y == true) {
-                shooter.shoot(0.5);
-            }
-            else {
-                shooter.stop();
-            }
+            if (!isChassisOnly){
+                if (gamepad2.y == true) {
+                    shooter.shoot(0.5);
+                }
+                else {
+                    shooter.stop();
+                }
 
-            if (gamepad2.right_bumper==true){
-                intake.start();
-            }
-            else {
-              intake.stop();
-            }
+                if (gamepad2.right_bumper==true){
+                    intake.start();
+                }
+                else {
+                  intake.stop();
+                }
 
-            if (gamepad2.b==true) {
-                spinner.start();
-                roller.start();
-            }
-            else if (gamepad2.a==true){
-                spinner.reverse();
-                roller.reverse();
-            }
-            else{
-                spinner.stop();
-                roller.stop();
+                if (gamepad2.b==true) {
+                    spinner.start();
+                    roller.start();
+                }
+                else if (gamepad2.a==true){
+                    spinner.reverse();
+                    roller.reverse();
+                }
+                else{
+                    spinner.stop();
+                    roller.stop();
+                }
             }
 
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-//            telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
-//            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
             telemetry.update();
         }
     }}
