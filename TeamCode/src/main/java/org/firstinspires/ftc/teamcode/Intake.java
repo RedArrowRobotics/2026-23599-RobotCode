@@ -12,11 +12,12 @@ public class Intake {
         intake = hardwareMap.get(DcMotor.class, "intake"); //port 0 Expansion hub
         intake.setDirection(DcMotor.Direction.REVERSE); //TODO verify direction
     }
-
     void start() {
         intake.setPower(intakeSpeed);
     }
-
+    void reverse() {
+        intake.setPower(-intakeSpeed);
+    }
     void stop() {
         intake.setPower(0);
     }

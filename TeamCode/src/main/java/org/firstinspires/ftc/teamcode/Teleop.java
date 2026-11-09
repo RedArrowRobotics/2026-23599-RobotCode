@@ -88,7 +88,7 @@ public class Teleop extends LinearOpMode {
             intake = new Intake(hardwareMap);
 
             spinner = new Spinner(hardwareMap, "Spinner", -0.6);
-            roller = new Spinner(hardwareMap, "Roller", 0.8);
+            roller = new Spinner(hardwareMap, "Roller", -0.8);
         }
 
         // Wait for the game to start (driver presses START)
@@ -109,8 +109,8 @@ public class Teleop extends LinearOpMode {
             omniDrive.drive(front_back *front_back*front_back, side*side*side, turn*turn*turn);
 
             if (!isChassisOnly){
-                if (gamepad2.y == true) {
-                    shooter.shoot(0.5);
+                if (gamepad2.left_bumper == true) {
+                    shooter.shoot(1);
                 }
                 else {
                     shooter.stop();
@@ -119,8 +119,11 @@ public class Teleop extends LinearOpMode {
                 if (gamepad2.right_bumper==true){
                     intake.start();
                 }
+                else if (gamepad2.right_trigger>0.5){
+                  intake.reverse();
+                }
                 else {
-                  intake.stop();
+                    intake.stop();
                 }
 
                 if (gamepad2.b==true) {
