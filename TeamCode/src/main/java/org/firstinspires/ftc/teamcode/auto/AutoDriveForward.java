@@ -18,7 +18,9 @@ public class AutoDriveForward extends LinearOpMode {
     public void runOpMode() {
         omniDrive = new OmniDrive(hardwareMap, telemetry);
         // construct AutoOmniDrive object here
-        AutoOmniDrive autoOmniDrive = new AutoOmniDrive(omniDrive, 62, 3, telemetry);
+        AutoOmniDrive autoOmniDrive = new AutoOmniDrive(omniDrive, 38, 2, telemetry);
+        //AutoOmniStrafe autoOmniStrafe = new AutoOmniStrafe(omniDrive, 38, 2, telemetry);
+        //AutoOmniTurn autoOmniTurn = new AutoOmniTurn(omniDrive, 38, 2, telemetry);
 
         waitForStart();
 

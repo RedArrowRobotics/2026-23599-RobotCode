@@ -110,7 +110,7 @@ public class Teleop extends LinearOpMode {
 
             if (!isChassisOnly){
                 if (gamepad2.left_bumper == true) {
-                    shooter.shoot(1);
+                    shooter.shoot(0.4);
                 }
                 else {
                     shooter.stop();
@@ -119,11 +119,8 @@ public class Teleop extends LinearOpMode {
                 if (gamepad2.right_bumper==true){
                     intake.start();
                 }
-                else if (gamepad2.right_trigger>0.5){
-                  intake.reverse();
-                }
                 else {
-                    intake.stop();
+                  intake.stop();
                 }
 
                 if (gamepad2.b==true) {
