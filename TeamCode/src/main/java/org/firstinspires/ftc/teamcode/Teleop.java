@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -76,6 +77,7 @@ public class Teleop extends LinearOpMode {
 
     private Spinner spinner = null;
     private Spinner roller = null;
+    private Servo shooterArm = null;
 
     @Override
     public void runOpMode() {
@@ -89,14 +91,16 @@ public class Teleop extends LinearOpMode {
 
             spinner = new Spinner(hardwareMap, "Spinner", -0.6);
             roller = new Spinner(hardwareMap, "Roller", -0.8);
+            shooterArm = hardwareMap.get(Servo.class, "shooterArm");
         }
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
         waitForStart();
         runtime.reset();
-
+        shooterArm.setPosition(-1);
         // run until the end wof the match (driver presses STOP)
         while (opModeIsActive()) {
 
@@ -105,12 +109,21 @@ public class Teleop extends LinearOpMode {
             double front_back   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double side =  gamepad1.left_stick_x;
             double turn =  gamepad1.right_stick_x;
-
-            omniDrive.drive(front_back *front_back*front_back, side*side*side, turn*turn*turn);
+            if(gamepad1.dpad_up==true){
+                omniDrive.drive(0.1, 0, 0);
+            } else if(gamepad1.dpad_down==true){
+                omniDrive.drive(-0.1, 0, 0);
+            } else if(gamepad1.dpad_left==true){
+                omniDrive.drive(0, -0.1, 0);
+            } else if(gamepad1.dpad_right==true){
+                omniDrive.drive(0, 0.1, 0);
+            } else {
+                omniDrive.drive(front_back * front_back * front_back, side * side * side, turn * turn * turn);
+            }
 
             if (!isChassisOnly){
                 if (gamepad2.left_bumper == true) {
-                    shooter.shoot(0.4);
+                    shooter.shoot(0.65);
                 }
                 else {
                     shooter.stop();
@@ -130,8 +143,10 @@ public class Teleop extends LinearOpMode {
                 else if (gamepad2.a==true){
                     spinner.reverse();
                     roller.reverse();
+                } else if (gamepad2.right_trigger>0.5) {
+                    intake.reverse();
                 }
-                else{
+               else{
                     spinner.stop();
                     roller.stop();
                 }
