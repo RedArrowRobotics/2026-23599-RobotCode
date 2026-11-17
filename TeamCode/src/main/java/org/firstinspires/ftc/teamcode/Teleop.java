@@ -85,7 +85,7 @@ public class Teleop extends LinearOpMode {
         omniDrive = new OmniDrive(hardwareMap, telemetry);
 
         if (!isChassisOnly){
-            shooter = new ActualShooter(hardwareMap);
+            shooter = new ActualShooter(hardwareMap, telemetry);
 
             intake = new Intake(hardwareMap);
 
@@ -123,33 +123,46 @@ public class Teleop extends LinearOpMode {
 
             if (!isChassisOnly){
                 if (gamepad2.left_bumper == true) {
-                    shooter.shoot(0.65);
-                }
-                else {
-                    shooter.stop();
-                }
+                    // Shoot
+                    double shootSpeed=0.585;
+                    shooter.shoot(shootSpeed);
 
-                if (gamepad2.right_bumper==true){
+                    // feed if up to speed
+                    if ((shooter.isShooterAtRightSpeed(shootSpeed)) ||
+                            (gamepad2.b==true)){
+                        roller.start();
+                        spinner.start();
+                        intake.start();
+                    }  else {
+                        roller.stop();
+                        spinner.stop();
+                        intake.stop();
+                    }
+                } else if (gamepad2.right_bumper==true){
+                    // Intake + spinner
                     intake.start();
-                }
-                else {
-                  intake.stop();
-                }
-
-                if (gamepad2.b==true) {
                     spinner.start();
-                    roller.start();
-                }
-                else if (gamepad2.a==true){
+                    roller.stop();
+                    shooter.stop();
+                } else if (gamepad2.a==true){
+                    // reverse roller
+                    roller.reverse();
+                    spinner.stop();
+                    shooter.stop();
+                    intake.stop();
+                } else if (gamepad2.right_trigger>0.5) {
+                    // reverse all
+                    intake.reverse();
                     spinner.reverse();
                     roller.reverse();
-                } else if (gamepad2.right_trigger>0.5) {
-                    intake.reverse();
-                }
-               else{
-                    spinner.stop();
-                    roller.stop();
-                }
+                    shooter.stop();
+                } else{
+                   // all off
+                   spinner.stop();
+                   roller.stop();
+                   shooter.stop();
+                   intake.stop();
+               }
             }
 
 
