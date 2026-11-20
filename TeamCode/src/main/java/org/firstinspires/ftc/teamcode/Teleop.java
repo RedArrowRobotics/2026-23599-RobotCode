@@ -100,7 +100,7 @@ public class Teleop extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
-        shooterArm.setPosition(-1);
+        shooterArm.setDirection(Servo.Direction.REVERSE);
         // run until the end wof the match (driver presses STOP)
         while (opModeIsActive()) {
 
@@ -122,9 +122,12 @@ public class Teleop extends LinearOpMode {
             }
 
             if (!isChassisOnly){
-                if (gamepad2.left_bumper == true) {
+                if (gamepad2.left_bumper == true || gamepad2.left_trigger>0.5) {
                     // Shoot
                     double shootSpeed=0.585;
+                    if(gamepad2.left_trigger>0.5){
+                        shootSpeed=0.62;
+                    }
                     shooter.shoot(shootSpeed);
 
                     // feed if up to speed
@@ -147,8 +150,8 @@ public class Teleop extends LinearOpMode {
                 } else if (gamepad2.a==true){
                     // reverse roller
                     roller.reverse();
+                    shooter.shoot(-0.3);
                     spinner.stop();
-                    shooter.stop();
                     intake.stop();
                 } else if (gamepad2.right_trigger>0.5) {
                     // reverse all
@@ -156,6 +159,10 @@ public class Teleop extends LinearOpMode {
                     spinner.reverse();
                     roller.reverse();
                     shooter.stop();
+                } else if (gamepad2.x==true){
+                    shooterArm.setPosition(0);
+                } else if(gamepad2.y==true){
+                    shooterArm.setPosition(0.27);
                 } else{
                    // all off
                    spinner.stop();
