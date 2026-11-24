@@ -15,7 +15,7 @@ public class AutoOmniStrafe {
     private OmniDrive chassis;
     private double topSpeed = 0.6;
 
-    AutoOmniStrafe(OmniDrive omniDrive, double distance, double time, Telemetry telemetry) {
+    AutoOmniStrafe(OmniDrive chassis, double distance, double time, Telemetry telemetry) {
         this.chassis = chassis;
         this.distance = distance/62;
         //minimum distance is ts/2*62; maximum distance is time*speed*62

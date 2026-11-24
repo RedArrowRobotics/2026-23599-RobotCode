@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.OmniDrive;
 
 
-@Autonomous(name="Auto Drive Forward", group="Robot")
+@Autonomous(name="Secondary autonomous", group="Robot")
 public class AutoDriveForward extends LinearOpMode {
 
     private OmniDrive omniDrive = null;
@@ -17,13 +17,23 @@ public class AutoDriveForward extends LinearOpMode {
     @Override
     public void runOpMode() {
         omniDrive = new OmniDrive(hardwareMap, telemetry);
-        // construct AutoOmniDrive object here
-        AutoOmniDrive autoOmniDrive = new AutoOmniDrive(omniDrive, 38, 2, telemetry);
+        // construct AutoOmniDrive object here//
+        AutoOmniStrafe autoOmniStrafe = new AutoOmniStrafe(omniDrive, -2.5, 0.1, telemetry);
+
+        AutoOmniDrive autoOmniDrive = new AutoOmniDrive(omniDrive, 19, 1, telemetry);
         //AutoOmniStrafe autoOmniStrafe = new AutoOmniStrafe(omniDrive, 38, 2, telemetry);
         //AutoOmniTurn autoOmniTurn = new AutoOmniTurn(omniDrive, 38, 2, telemetry);
 
         waitForStart();
 
+        autoOmniStrafe.start();
+        boolean finished = false;
+        while (opModeIsActive() && !finished) {
+            // call the 'loop' function on the AutoOmniDrive object
+            finished = autoOmniStrafe.loop();
+            telemetry.update();
+
+        }
         // call 'start' on the AutoOmniDrive object
         autoOmniDrive.start();
 
