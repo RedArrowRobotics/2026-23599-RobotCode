@@ -123,6 +123,7 @@ public class Teleop extends LinearOpMode {
 
             if (!isChassisOnly){
                 if (gamepad2.left_bumper == true || gamepad2.left_trigger>0.5) {
+                    // TODO: Replace with AutoShoot code
                     // Shoot
                     double shootSpeed=0.585;
                     if(gamepad2.left_trigger>0.5){

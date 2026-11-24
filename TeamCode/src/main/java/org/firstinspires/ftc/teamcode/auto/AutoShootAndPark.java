@@ -32,6 +32,8 @@ public class AutoShootAndPark extends LinearOpMode {
         autoShoot.setLaunchSpeed(ActualShooter.SHORT_SHOOT_SPEED);
         waitForStart();
 
+        // TODO: May want to inch backwards off the wall.
+
         // Shoot
         autoShoot.start(4);
         while (opModeIsActive()) {
@@ -42,6 +44,7 @@ public class AutoShootAndPark extends LinearOpMode {
 
 
         // Strafe Right 48in. (negative)
+        // TODO: Strafe is not calibrated for distance
         autoOmniStrafe.start();
         while (opModeIsActive()) {
             // call the 'loop' function on the AutoOmniDrive object
