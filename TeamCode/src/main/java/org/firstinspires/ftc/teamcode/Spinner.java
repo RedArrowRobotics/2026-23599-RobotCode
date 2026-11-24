@@ -10,20 +10,20 @@ public class Spinner {
     private CRServo spinner = null;
     private double spinnerSpeed = 0;
 
-    Spinner(HardwareMap hardwareMap, String name, double spinnerSpeed) {
+    public Spinner(HardwareMap hardwareMap, String name, double spinnerSpeed) {
         spinner = hardwareMap.get(CRServo.class, name);
         spinner.setDirection(CRServo.Direction.FORWARD);
         this.spinnerSpeed = spinnerSpeed;
     }
 
-    void start() {
+    public void start() {
         spinner.setPower(spinnerSpeed);
     }
-    void stop() {
+    public void stop() {
         spinner.setPower(0);
     }
 
-    void reverse(){
+    public void reverse(){
         spinner.setPower(-0.5*spinnerSpeed);
     }
 

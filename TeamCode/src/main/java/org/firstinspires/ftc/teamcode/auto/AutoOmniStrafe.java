@@ -20,6 +20,7 @@ public class AutoOmniStrafe {
         this.distance = distance/62;
         //minimum distance is ts/2*62; maximum distance is time*speed*62
         //distance=1 causes robot to move 62 inches. 5ft 2in. 5.167ft
+        // negative is right and positive is left. We think.
         this.time = time;
         this.telemetry = telemetry;
         double A = 2*this.distance/topSpeed-time;
